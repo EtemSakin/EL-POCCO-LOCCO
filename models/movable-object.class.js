@@ -19,8 +19,17 @@ class MovableObject {
             arr.forEach(path => {
                 let img = new Image();
                 img.src = path;
+                img.style = 'trabsform: scaleX(-1)';
                 this.imgCache[path] = img;
             });
+        }
+
+
+        playAnimation(images) {
+            let i = this.curentImage % images.length;
+            let path = images[i];
+            this.img = this.imgCache[path];
+            this.curentImage++;
         }
 
         moveRight() {
