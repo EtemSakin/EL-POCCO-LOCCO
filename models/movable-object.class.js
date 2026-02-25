@@ -8,7 +8,21 @@ class MovableObject {
         curentImage = 0;
         speed = 0.15;
         othersDirection = false;
+        speedY = 0;
+        acceleration = 1;
 
+        applyGravity() {
+            setInterval(() => {
+                if (this.isAboveGround()){
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                }
+            }, 1000 / 60);
+        }
+
+        isAboveGround() {
+            return this.y < 170;
+        }
 
         loadImage(path) {
             this.img = new Image();
@@ -19,7 +33,7 @@ class MovableObject {
             arr.forEach(path => {
                 let img = new Image();
                 img.src = path;
-                img.style = 'trabsform: scaleX(-1)';
+                img.style = 'transform: scaleX(-1)';
                 this.imgCache[path] = img;
             });
         }
