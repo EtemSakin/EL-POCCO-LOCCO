@@ -1,59 +1,57 @@
 class MovableObject {
-        x = 120;
-        y = 280;
-        height = 150;
-        width = 100;
-        img;
-        imgCache = {};
-        curentImage = 0;
-        speed = 0.15;
-        othersDirection = false;
-        speedY = 0;
-        acceleration = 1;
+  x = 120;
+  y = 280;
+  height = 150;
+  width = 100;
+  img;
+  imgCache = {};
+  curentImage = 0;
+  speed = 0.15;
+  othersDirection = false;
+  speedY = 0;
+  acceleration = 1;
 
-        applyGravity() {
-            setInterval(() => {
-                if (this.isAboveGround()){
-                    this.y -= this.speedY;
-                    this.speedY -= this.acceleration;
-                }
-            }, 1000 / 60);
-        }
+  applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 60);
+  }
 
-        isAboveGround() {
-            return this.y < 170;
-        }
+  isAboveGround() {
+    return this.y < 170;
+  }
 
-        loadImage(path) {
-            this.img = new Image();
-            this.img.src = path;
-        }
+  loadImage(path) {
+    this.img = new Image();
+    this.img.src = path;
+  }
 
-        loadImages(arr) {
-            arr.forEach(path => {
-                let img = new Image();
-                img.src = path;
-                img.style = 'transform: scaleX(-1)';
-                this.imgCache[path] = img;
-            });
-        }
+  loadImages(arr) {
+    arr.forEach((path) => {
+      let img = new Image();
+      img.src = path;
+      img.style = "transform: scaleX(-1)";
+      this.imgCache[path] = img;
+    });
+  }
 
+  playAnimation(images) {
+    let i = this.curentImage % images.length;
+    let path = images[i];
+    this.img = this.imgCache[path];
+    this.curentImage++;
+  }
 
-        playAnimation(images) {
-            let i = this.curentImage % images.length;
-            let path = images[i];
-            this.img = this.imgCache[path];
-            this.curentImage++;
-        }
+  moveRight() {
+    console.log("Move Right");
+  }
 
-        moveRight() {
-            console.log('Move Right');
-        }
-
-        moveLeft() {
-              setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 60);
-    }
-        
+  moveLeft() {
+    setInterval(() => {
+      this.x -= this.speed;
+    }, 1000 / 60);
+  }
 }
