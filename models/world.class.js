@@ -12,8 +12,9 @@ class World {
     this.canvas = canvas;
     this.keyboard = keyboard;
 
-    this.setWorld(); // zuerst
-    this.draw(); // dann
+    this.setWorld();
+    this.draw();
+    this.checkCollisions();
   }
 
   setWorld() {
@@ -21,12 +22,20 @@ class World {
     this.character.animate();
   }
 
+  checkCollisions() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          console.log("Collision with enemy");
+        }
+      });
+    }, 100);
+  }
+
   draw() {
-    // Reset Transform, damit nichts driftet
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Kamera
     this.ctx.translate(this.camera_x, 0);
 
     this.addObjectstoMap(this.level.backgroundObjects);
@@ -52,6 +61,12 @@ class World {
     }
 
     this.ctx.drawImage(mO.img, mO.x, mO.y, mO.width, mO.height);
+
+    this.ctx.beginPath();
+    this.ctx.lineWidth = "1";
+    this.ctx.strokeStyle = "red";
+    this.ctx.rect(mO.x, mO.y, mO.width, mO.height);
+    this.ctx.stroke();
 
     if (mO.otherDirection) {
       mO.x = mO.x * -1;

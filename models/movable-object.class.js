@@ -24,6 +24,15 @@ class MovableObject {
     return this.y < 170;
   }
 
+  isColliding(enemy) {
+    return (
+      this.x < enemy.x + enemy.width &&
+      this.x + this.width > enemy.x &&
+      this.y < enemy.y + enemy.height &&
+      this.y + this.height > enemy.y
+    );
+  }
+
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
