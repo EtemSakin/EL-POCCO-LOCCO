@@ -9,6 +9,13 @@ class World {
   statusBarBottle = new StatusBarBottle();
   statusBarCoin = new StatusBarCoin();
   throwableObject = [];
+  parallaxLayers = [
+    new ParallaxLayer("img/5_background/layers/air.png", 0.1),
+    new ParallaxLayer("img/5_background/layers/3_third_layer/full.png", 0.3),
+    new ParallaxLayer("img/5_background/layers/2_second_layer/full.png", 0.5),
+    new ParallaxLayer("img/5_background/layers/1_first_layer/full.png", 0.8),
+    new ParallaxLayer("img/5_background/layers/front_cactus.png", 1.0),
+  ];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -54,13 +61,12 @@ class World {
   draw() {
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.translate(this.camera_x, 0);
-    this.addObjectstoMap(this.level.backgroundObjects);
 
-    this.ctx.translate(-this.camera_x, 0);
-    this.addtoMap(this.statusBarHealth);
-    this.addtoMap(this.statusBarBottle);
-    this.addtoMap(this.statusBarCoin);
+    this.parallaxLayers.forEach((layer) => {
+      layer.update(this.camera_x);
+      layer.draw(this.ctx);
+    });
+
     this.ctx.translate(this.camera_x, 0);
 
     this.addtoMap(this.character);
@@ -69,6 +75,10 @@ class World {
     this.addObjectstoMap(this.throwableObject);
 
     this.ctx.translate(-this.camera_x, 0);
+
+    this.addtoMap(this.statusBarHealth);
+    this.addtoMap(this.statusBarBottle);
+    this.addtoMap(this.statusBarCoin);
 
     requestAnimationFrame(() => this.draw());
   }
