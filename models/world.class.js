@@ -1,11 +1,12 @@
 class World {
   character = new Character();
   level = level1;
-
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
+  statusBar = new StatusBar();
+  throwableObject = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
@@ -14,7 +15,7 @@ class World {
 
     this.setWorld();
     this.draw();
-    this.checkCollisions();
+    this.run();
   }
 
   setWorld() {
@@ -22,32 +23,48 @@ class World {
     this.character.animate();
   }
 
-  checkCollisions() {
+  run() {
     setInterval(() => {
-      this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
-          this.character.hit();
-          console.log(
-            "Collision with Character, Energy ",
-            this.character.energy,
-            " Enemy Energy ",
-            enemy.energy,
-          );
-        }
-      });
+      this.checkCollisions();
+      this.checkThrowableObject();
     }, 100);
+  }
+
+  checkThrowableObject() {
+    if (this.keyboard.D) {
+      let bottle = new ThrowableObject(
+        this.character.x + 100,
+        this.character.y + 100,
+      );
+      this.throwableObject.push(bottle);
+    }
+  }
+
+  checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+      }
+    });
   }
 
   draw() {
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectstoMap(this.level.backgroundObjects);
 
+    this.ctx.translate(-this.camera_x, 0);
+    this.addtoMap(this.statusBar);
     this.ctx.translate(this.camera_x, 0);
 
-    this.addObjectstoMap(this.level.backgroundObjects);
     this.addtoMap(this.character);
     this.addObjectstoMap(this.level.enemies);
     this.addObjectstoMap(this.level.clouds);
+    this.addObjectstoMap(this.throwableObject);
+
+    this.ctx.translate(-this.camera_x, 0);
 
     requestAnimationFrame(() => this.draw());
   }

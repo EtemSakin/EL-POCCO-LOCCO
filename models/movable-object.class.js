@@ -1,11 +1,4 @@
-class MovableObject {
-  x = 120;
-  y = 280;
-  height = 150;
-  width = 100;
-  img;
-  imgCache = {};
-  curentImage = 0;
+class MovableObject extends DrawableObject {
   speed = 0.15;
   othersDirection = false;
   speedY = 0;
@@ -23,7 +16,11 @@ class MovableObject {
   }
 
   isAboveGround() {
-    return this.y < 170;
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else {
+      return this.y < 170;
+    }
   }
 
   isColliding(enemy) {
@@ -52,20 +49,6 @@ class MovableObject {
 
   isDead() {
     return this.energy === 0;
-  }
-
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  loadImages(arr) {
-    arr.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      img.style = "transform: scaleX(-1)";
-      this.imgCache[path] = img;
-    });
   }
 
   playAnimation(images) {
