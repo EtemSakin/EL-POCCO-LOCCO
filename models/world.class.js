@@ -5,7 +5,9 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
-  statusBar = new StatusBar();
+  statusBarHealth = new StatusBar();
+  statusBarBottle = new StatusBarBottle();
+  statusBarCoin = new StatusBarCoin();
   throwableObject = [];
 
   constructor(canvas, keyboard) {
@@ -56,7 +58,9 @@ class World {
     this.addObjectstoMap(this.level.backgroundObjects);
 
     this.ctx.translate(-this.camera_x, 0);
-    this.addtoMap(this.statusBar);
+    this.addtoMap(this.statusBarHealth);
+    this.addtoMap(this.statusBarBottle);
+    this.addtoMap(this.statusBarCoin);
     this.ctx.translate(this.camera_x, 0);
 
     this.addtoMap(this.character);
