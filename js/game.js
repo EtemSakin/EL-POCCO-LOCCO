@@ -13,6 +13,7 @@ window.addEventListener('load', () => {
  * Starts the game by hiding the start screen and creating the world.
  */
 function startGame() {
+  window.gamePaused = false;
   document.getElementById('startScreen').style.display = 'none';
   world = new World(canvas, keyboard);
 }
@@ -82,6 +83,9 @@ function bindButtonEvents() {
   document.getElementById('controlsBtn').addEventListener('click', openControls);
   document.getElementById('closeControls').addEventListener('click', closeControls);
   document.getElementById('muteBtn').addEventListener('click', toggleMute);
+  if (localStorage.getItem('muted') === 'true') {
+    document.getElementById('muteBtn').textContent = '🔇';
+  }
   document.getElementById('controlsDialog').addEventListener('click', (e) => {
     if (e.target === document.getElementById('controlsDialog')) closeControls();
   });

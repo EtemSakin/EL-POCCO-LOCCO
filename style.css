@@ -32,6 +32,7 @@ h1 {
   position: relative;
   width: 720px;
   height: 480px;
+  overflow: hidden;
 }
 
 canvas {
@@ -39,6 +40,7 @@ canvas {
   height: 480px;
   display: block;
   border-radius: 6px;
+  background: #7ec8e3;
 }
 
 /* ── Overlays ── */
@@ -251,8 +253,9 @@ footer a:hover {
 /* ── Responsive: mobile landscape ── */
 @media (max-width: 900px) {
   .game-wrapper {
-    width: 100vw;
-    height: calc(100vw * 480 / 720);
+    aspect-ratio: 720 / 480;
+    width: min(100vw, calc((100dvh - 60px) * 720 / 480));
+    height: auto;
   }
 
   canvas {
@@ -261,10 +264,23 @@ footer a:hover {
   }
 
   h1 {
-    font-size: 1.3rem;
-    margin: 6px 0;
+    font-size: 1rem;
+    margin: 3px 0;
   }
 
+  footer {
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 2px 0;
+  }
+
+  #mobileControls {
+    display: flex;
+  }
+}
+
+/* ── Touch-Geräte (iPad etc.): Touch-Buttons immer anzeigen ── */
+@media (pointer: coarse) {
   #mobileControls {
     display: flex;
   }

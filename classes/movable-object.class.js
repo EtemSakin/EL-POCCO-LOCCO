@@ -34,12 +34,15 @@ class MovableObject extends DrawableObject {
    * @returns {boolean}
    */
   isColliding(other) {
-    return (
-      this.x + 20 < other.x + other.width - 20 &&
-      this.x + this.width - 20 > other.x + 20 &&
-      this.y + 20 < other.y + other.height &&
-      this.y + this.height > other.y + 20
-    );
+    const myT = this.y + (this.offset?.top ?? 20);
+    const myB = this.y + this.height - (this.offset?.bottom ?? 20);
+    const myL = this.x + (this.offset?.left ?? 20);
+    const myR = this.x + this.width - (this.offset?.right ?? 20);
+    const oT = other.y + (other.offset?.top ?? 20);
+    const oB = other.y + other.height - (other.offset?.bottom ?? 20);
+    const oL = other.x + (other.offset?.left ?? 20);
+    const oR = other.x + other.width - (other.offset?.right ?? 20);
+    return myL < oR && myR > oL && myT < oB && myB > oT;
   }
 
   /**
@@ -48,11 +51,15 @@ class MovableObject extends DrawableObject {
    * @returns {boolean}
    */
   isCollidingNoPad(other) {
+    const oL = other.x + (other.offset?.left ?? 0);
+    const oR = other.x + other.width - (other.offset?.right ?? 0);
+    const oT = other.y + (other.offset?.top ?? 0);
+    const oB = other.y + other.height - (other.offset?.bottom ?? 0);
     return (
-      this.x < other.x + other.width &&
-      this.x + this.width > other.x &&
-      this.y < other.y + other.height &&
-      this.y + this.height > other.y
+      this.x < oR &&
+      this.x + this.width > oL &&
+      this.y < oB &&
+      this.y + this.height > oT
     );
   }
 

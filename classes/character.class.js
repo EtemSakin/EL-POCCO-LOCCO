@@ -9,6 +9,7 @@ class Character extends MovableObject {
   deathFrame = 0;
   walkSoundPlaying = false;
   snoreSoundPlaying = false;
+  offset = { top: 70, bottom: 5, left: 20, right: 20 };
 
   IMAGES_IDLE = [
     'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -115,7 +116,7 @@ class Character extends MovableObject {
    * Handles keyboard input, movement, and camera follow.
    */
   handleMovement() {
-    if (!this.world || this.isDead() || this.world.paused) return;
+    if (!this.world || this.isDead() || this.world.paused || this.world.gameOver) return;
     const kb = this.world.keyboard;
     const levelEnd = this.world.level ? this.world.level.level_end_x : Infinity;
     const moved = this.applyKeyboardMovement(kb, levelEnd);
@@ -152,7 +153,7 @@ class Character extends MovableObject {
    * Selects and plays the correct animation for the current state.
    */
   handleAnimation() {
-    if (!this.world || this.world.paused) return;
+    if (!this.world || this.world.paused || this.world.gameOver) return;
     if (this.isDead()) {
       this.handleDeathAnimation();
     } else if (this.isHurt()) {
@@ -243,7 +244,7 @@ class Character extends MovableObject {
    * Makes the character jump by setting vertical speed.
    */
   jump() {
-    this.speedY = 15;
+    this.speedY = 18;
     if (this.world && this.world.soundManager) {
       this.world.soundManager.play('jump');
     }

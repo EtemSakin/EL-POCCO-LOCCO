@@ -249,7 +249,6 @@ class World {
    */
   checkGameResult() {
     if (this.character.isDead() && this.character.deathHandled) {
-      this.soundManager.play('dead');
       this.triggerGameOver(false);
     }
     const boss = this.getEndboss();
@@ -265,11 +264,13 @@ class World {
   triggerGameOver(won) {
     if (this.gameOver) return;
     this.gameOver = true;
-    this.soundManager.stopAll();
+    window.gamePaused = true;
+    if (!won) this.soundManager.play('dead');
     setTimeout(() => {
+      this.soundManager.stopAll();
       if (won) showWinScreen();
       else showLoseScreen();
-    }, 1000);
+    }, 1200);
   }
 
   /**
@@ -278,7 +279,8 @@ class World {
   draw() {
     if (this.stopped) return;
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = '#7ec8e3';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawParallaxLayers();
     this.ctx.translate(this.camera_x, 0);
     this.drawWorldObjects();
