@@ -1,4 +1,9 @@
 class BackgroundObject extends MovableObject {
+  /**
+   * Creates a static background tile at the given x position.
+   * @param {string} imagePath - Path to the background image
+   * @param {number} x - Horizontal position
+   */
   constructor(imagePath, x) {
     super().loadImage(imagePath);
     this.x = x;

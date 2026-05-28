@@ -1,87 +1,140 @@
-const level1 = new Level(
-  [new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+function createLevel1() {
+  const level = new Level(
+    [
+      new Chicken(600),
+      new Chicken(1100),
+      new Chicken(1600),
+      new Chicken(2100),
+      new Chicken(2600),
+      new Chicken(3100),
+      new Chicken(3600),
+      new Chicken(4100),
+      new Chicken(4600),
+      new Chicken(5100),
+      new Chicken(5600),
+      new Chicken(6100),
+      new Chicken(6600),
+      new Chicken(7100),
+      new Chicken(7600),
 
-  [new Cloud()],
+      new ChickenSmall(850),
+      new ChickenSmall(1350),
+      new ChickenSmall(1850),
+      new ChickenSmall(2350),
+      new ChickenSmall(2850),
+      new ChickenSmall(3350),
+      new ChickenSmall(3850),
+      new ChickenSmall(4350),
+      new ChickenSmall(4850),
+      new ChickenSmall(5350),
+      new ChickenSmall(5850),
+      new ChickenSmall(6350),
+      new ChickenSmall(6850),
+      new ChickenSmall(7350),
+      new ChickenSmall(7850),
 
-  [
-    new BackgroundObject("img/5_background/layers/air.png", -1440),
-    new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -1440),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/full.png",
-      -1440,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/full.png",
-      -1440,
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 0),
-    new BackgroundObject("img/5_background/layers/3_third_layer/full.png", 0),
-    new BackgroundObject("img/5_background/layers/2_second_layer/full.png", 0),
-    new BackgroundObject("img/5_background/layers/1_first_layer/full.png", 0),
-    new BackgroundObject("img/5_background/layers/air.png", 1440),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/full.png",
-      1440,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/full.png",
-      1440,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/full.png",
-      1440,
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 1440 * 2),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/full.png",
-      1440 * 2,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/full.png",
-      1440 * 2,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/full.png",
-      1440 * 2,
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 1440 * 3),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/full.png",
-      1440 * 3,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/full.png",
-      1440 * 3,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/full.png",
-      1440 * 3,
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 1440 * 4),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/full.png",
-      1440 * 4,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/full.png",
-      1440 * 4,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/full.png",
-      1440 * 4,
-    ),
-    new BackgroundObject("img/5_background/layers/air.png", 1440 * 5),
-    new BackgroundObject(
-      "img/5_background/layers/3_third_layer/full.png",
-      1440 * 5,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/2_second_layer/full.png",
-      1440 * 5,
-    ),
-    new BackgroundObject(
-      "img/5_background/layers/1_first_layer/full.png",
-      1440 * 5,
-    ),
-  ],
-);
+      // Gärtner vor dem Boss — erhöhte Schwierigkeit
+      new Chicken(7900),
+      new ChickenSmall(8000),
+      new Chicken(8100),
+      new ChickenSmall(8200),
+      new Chicken(8300),
+      new ChickenSmall(8400),
+
+      new Endboss(),
+    ],
+
+    [new Cloud(), new Cloud(), new Cloud()],
+
+    [
+      new BackgroundObject('img/5_background/layers/air.png', -1440),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', -1440),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', -1440),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', -1440),
+
+      new BackgroundObject('img/5_background/layers/air.png', 0),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 0),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 0),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 0),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440 * 2),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440 * 2),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440 * 2),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440 * 2),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440 * 3),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440 * 3),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440 * 3),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440 * 3),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440 * 4),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440 * 4),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440 * 4),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440 * 4),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440 * 5),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440 * 5),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440 * 5),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440 * 5),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440 * 6),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440 * 6),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440 * 6),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440 * 6),
+
+      new BackgroundObject('img/5_background/layers/air.png', 1440 * 7),
+      new BackgroundObject('img/5_background/layers/3_third_layer/full.png', 1440 * 7),
+      new BackgroundObject('img/5_background/layers/2_second_layer/full.png', 1440 * 7),
+      new BackgroundObject('img/5_background/layers/1_first_layer/full.png', 1440 * 7),
+    ],
+
+    [
+      new Coin(400, 100),
+      new Coin(1000, 80),
+      new Coin(1600, 100),
+      new Coin(2200, 90),
+      new Coin(2800, 100),
+      new Coin(3400, 80),
+      new Coin(4000, 100),
+      new Coin(4600, 90),
+      new Coin(5200, 100),
+      new Coin(5800, 80),
+      new Coin(6400, 100),
+      new Coin(7000, 90),
+      new Coin(7600, 100),
+      new Coin(8200, 80),
+      new Coin(8800, 100),
+    ],
+
+    [
+      new Bottle(500),
+      new Bottle(950),
+      new Bottle(1400),
+      new Bottle(1850),
+      new Bottle(2300),
+      new Bottle(2750),
+      new Bottle(3200),
+      new Bottle(3650),
+      new Bottle(4100),
+      new Bottle(4550),
+      new Bottle(5000),
+      new Bottle(5450),
+      new Bottle(5900),
+      new Bottle(6350),
+      new Bottle(6800),
+      new Bottle(7250),
+      new Bottle(7700),
+      new Bottle(8150),
+      new Bottle(8600),
+      new Bottle(9050),
+    ],
+  );
+
+  level.level_end_x = 9500;
+  return level;
+}

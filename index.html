@@ -3,29 +3,126 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/favicon.png" />
+    <link rel="stylesheet" href="fonts/boogaloo.css" />
     <link rel="stylesheet" href="style.css" />
     <title>El Pollo Loco</title>
-    <script src="models/drawable-object.class.js"></script>
-    <script src="models/movable-object.class.js"></script>
-    <script src="models/character.class.js"></script>
-    <script src="models/chicken.class.js"></script>
-    <script src="models/cloud.class.js"></script>
-    <script src="models/status-bar.class.js"></script>
-    <script src="models/status-bar-bottle.class.js"></script>
-    <script src="models/status-bar-coin.class.js"></script>
-    <script src="models/parallax-layer.class.js"></script>
-    <script src="models/world.class.js"></script>
-    <script src="models/background-object.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
-    <script src="models/level.class.js"></script>
-    <script src="models/throwable-object.class.js"></script>
-    <script src="models/endboss.class.js"></script>
+
+    <script src="classes/drawable-object.class.js"></script>
+    <script src="classes/movable-object.class.js"></script>
+    <script src="classes/background-object.class.js"></script>
+    <script src="classes/parallax-layer.class.js"></script>
+    <script src="classes/cloud.class.js"></script>
+    <script src="classes/coin.class.js"></script>
+    <script src="classes/bottle.class.js"></script>
+    <script src="classes/status-bar.class.js"></script>
+    <script src="classes/status-bar-bottle.class.js"></script>
+    <script src="classes/status-bar-coin.class.js"></script>
+    <script src="classes/status-bar-endboss.class.js"></script>
+    <script src="classes/keyboard.class.js"></script>
+    <script src="classes/throwable-object.class.js"></script>
+    <script src="classes/chicken.class.js"></script>
+    <script src="classes/chicken-small.class.js"></script>
+    <script src="classes/endboss.class.js"></script>
+    <script src="classes/character.class.js"></script>
+    <script src="classes/level.class.js"></script>
+    <script src="classes/sound.class.js"></script>
+    <script src="classes/world.class.js"></script>
     <script src="levels/level1.js"></script>
-    <script src="js/game.js"></script>
   </head>
-  <h1>El Pollo Loco</h1>
-  <img src="img/El-Pollo-Loco.png" alt="El Pollo Loco" />
-  <body onload="init()">
-    <canvas id="canvas" width="720" height="480"> </canvas>
+
+  <body>
+    <h1>El Pollo Loco</h1>
+
+    <div class="game-wrapper">
+      <!-- Start Screen -->
+      <div id="startScreen" class="overlay">
+        <div class="overlay-card">
+          <h2>El Pollo Loco</h2>
+          <p>Pepe braucht deine Hilfe! Besiege die Hühner und den Endboss!</p>
+          <button id="startBtn">SPIELEN</button>
+          <button id="controlsBtn">Steuerung</button>
+          <p class="hint">← → Bewegen &nbsp;|&nbsp; Space Springen &nbsp;|&nbsp; D Flasche werfen</p>
+        </div>
+      </div>
+
+      <!-- Controls Dialog -->
+      <div id="controlsDialog" class="overlay hidden">
+        <div class="overlay-card">
+          <button class="close-btn" id="closeControls">✕</button>
+          <h2>Steuerung</h2>
+          <div class="controls-grid">
+            <kbd>← →</kbd><span>Bewegen</span>
+            <kbd>Space</kbd><span>Springen</span>
+            <kbd>D</kbd><span>Flasche werfen</span>
+            <span>🍾</span><span>Flaschen einsammeln</span>
+            <span>🪙</span><span>Münzen einsammeln</span>
+          </div>
+          <p class="hint">Springe von oben auf Hühner, um sie zu besiegen!</p>
+        </div>
+      </div>
+
+      <!-- Win Screen -->
+      <div id="winScreen" class="overlay hidden">
+        <div class="overlay-card">
+          <h2>🎉 Du hast gewonnen!</h2>
+          <p>Pepe hat den Endboss besiegt!</p>
+          <button id="restartBtnWin">Nochmal spielen</button>
+          <button id="homeBtnWin">Startbildschirm</button>
+        </div>
+      </div>
+
+      <!-- Lose Screen -->
+      <div id="loseScreen" class="overlay hidden">
+        <div class="overlay-card">
+          <h2>Game Over</h2>
+          <p>Pepe hat das Bewusstsein verloren...</p>
+          <button id="restartBtnLose">Nochmal spielen</button>
+          <button id="homeBtnLose">Startbildschirm</button>
+        </div>
+      </div>
+
+      <!-- Pause Screen -->
+      <div id="pauseScreen" class="overlay hidden">
+        <div class="overlay-card">
+          <h2>Pause</h2>
+          <button id="resumeBtn">Weiterspielen</button>
+          <button id="restartBtnPause">Neu starten</button>
+          <button id="homeBtnPause">Startbildschirm</button>
+          <p class="hint">ESC zum Fortsetzen</p>
+        </div>
+      </div>
+
+      <!-- Portrait Warning (CSS-controlled) -->
+      <div id="portraitWarning">
+        <p>📱 Bitte Gerät drehen</p>
+        <p style="font-size:0.9rem;margin-top:8px;opacity:0.7;">El Pollo Loco funktioniert nur im Querformat</p>
+      </div>
+
+      <!-- Mute Button -->
+      <button id="muteBtn" title="Sound an/aus">🔊</button>
+      <!-- Pause Button -->
+      <button id="pauseBtn" title="Pause (ESC)">⏸</button>
+
+      <!-- Mobile Touch Buttons -->
+      <div id="mobileControls">
+        <div style="display:flex;gap:8px">
+          <button id="btnLeft">◀</button>
+          <button id="btnRight">▶</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="btnJump">⬆</button>
+          <button id="btnThrow">🍾</button>
+        </div>
+      </div>
+
+      <canvas id="canvas" width="720" height="480"></canvas>
+    </div>
+
+    <footer>
+      <a href="impressum.html">Impressum</a>
+    </footer>
+
+    <script src="js/game.js"></script>
   </body>
 </html>
