@@ -1,7 +1,7 @@
 class Bottle extends MovableObject {
   width = 60;
   height = 70;
-  y = 340;
+  y = 360;
   markedForRemoval = false;
 
   IMAGES = [

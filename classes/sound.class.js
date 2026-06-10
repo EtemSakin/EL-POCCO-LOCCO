@@ -1,9 +1,20 @@
 class SoundManager {
   sounds = {};
   muted = false;
+  throwAudioContext = null;
 
   constructor() {
     this.muted = localStorage.getItem('muted') === 'true';
+    this.initThrowAudio();
+  }
+
+  /**
+   * Prepares a WebAudio context for procedural throw sounds.
+   */
+  initThrowAudio() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    this.throwAudioContext = new AudioContextClass();
   }
 
   /**
@@ -28,6 +39,27 @@ class SoundManager {
     if (this.muted || !this.sounds[name]) return;
     this.sounds[name].currentTime = 0;
     this.sounds[name].play().catch(() => {});
+  }
+
+  /**
+   * Plays a short procedural whoosh for bottle throws.
+   */
+  playThrow() {
+    if (this.muted || !this.throwAudioContext) return;
+    const ctx = this.throwAudioContext;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(520, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.16);
+    gain.gain.setValueAtTime(0.001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.22, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.16);
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + 0.17);
   }
 
   /**

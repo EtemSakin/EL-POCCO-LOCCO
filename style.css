@@ -202,14 +202,19 @@ footer a:hover {
 /* ── Mobile Touch Buttons ── */
 #mobileControls {
   display: none;
-  position: absolute;
-  bottom: 12px;
-  left: 0;
-  right: 0;
+  position: fixed;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: max(18px, env(safe-area-inset-left));
+  right: max(18px, env(safe-area-inset-right));
   justify-content: space-between;
-  padding: 0 12px;
+  align-items: center;
   z-index: 15;
   pointer-events: none;
+}
+
+.mobile-control-group {
+  display: flex;
+  gap: 10px;
 }
 
 #mobileControls button {
@@ -224,6 +229,14 @@ footer a:hover {
   font-family: 'Boogaloo', Arial, sans-serif;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+}
+
+#mobileControls img {
+  width: 34px;
+  height: 42px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
 }
 
 #mobileControls button:active {
@@ -274,14 +287,14 @@ footer a:hover {
     padding: 2px 0;
   }
 
-  #mobileControls {
+  #mobileControls.gameplay-visible {
     display: flex;
   }
 }
 
 /* ── Touch-Geräte (iPad etc.): Touch-Buttons immer anzeigen ── */
 @media (pointer: coarse) {
-  #mobileControls {
+  #mobileControls.gameplay-visible {
     display: flex;
   }
 }

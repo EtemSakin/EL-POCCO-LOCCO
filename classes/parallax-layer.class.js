@@ -25,7 +25,7 @@ class ParallaxLayer extends DrawableObject {
    */
   update(camera_x) {
     const scroll = -camera_x * this.speedFactor;
-    this.offsetX = -(scroll % this.width);
+    this.offsetX = -(((scroll % this.width) + this.width) % this.width);
   }
 
   /**
@@ -34,8 +34,10 @@ class ParallaxLayer extends DrawableObject {
    */
   draw(ctx) {
     if (!this.img || !this.img.complete || this.img.naturalWidth === 0) return;
-    ctx.drawImage(this.img, this.offsetX - this.width, this.y, this.width, this.height);
-    ctx.drawImage(this.img, this.offsetX, this.y, this.width, this.height);
-    ctx.drawImage(this.img, this.offsetX + this.width, this.y, this.width, this.height);
+    const x = Math.round(this.offsetX);
+    const overlap = 1;
+    ctx.drawImage(this.img, x - this.width, this.y, this.width + overlap, this.height);
+    ctx.drawImage(this.img, x, this.y, this.width + overlap, this.height);
+    ctx.drawImage(this.img, x + this.width, this.y, this.width + overlap, this.height);
   }
 }

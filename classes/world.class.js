@@ -128,7 +128,7 @@ class World {
       dirRight,
     );
     this.throwableObjects.push(bottle);
-    this.soundManager.play('bottleBreak');
+    this.soundManager.playThrow();
     this.bottlesCollected--;
     this.throwCooldown = true;
     setTimeout(() => { this.throwCooldown = false; }, 500);
@@ -157,6 +157,7 @@ class World {
    */
   hitEnemy(enemy, bottle) {
     bottle.playSplash();
+    this.soundManager.play('bottleBreak');
     if (enemy instanceof Endboss) {
       enemy.hit(20);
       this.statusBarEndboss.setPercentage(enemy.energy);
@@ -265,6 +266,7 @@ class World {
     if (this.gameOver) return;
     this.gameOver = true;
     window.gamePaused = true;
+    if (typeof setMobileControlsVisible === 'function') setMobileControlsVisible(false);
     if (!won) this.soundManager.play('dead');
     setTimeout(() => {
       this.soundManager.stopAll();
@@ -286,6 +288,9 @@ class World {
     this.drawWorldObjects();
     this.ctx.translate(-this.camera_x, 0);
     this.drawHud();
+    this.ctx.translate(this.camera_x, 0);
+    this.addToMap(this.character);
+    this.ctx.translate(-this.camera_x, 0);
     requestAnimationFrame(() => this.draw());
   }
 
@@ -308,7 +313,6 @@ class World {
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
-    this.addToMap(this.character);
   }
 
   /**

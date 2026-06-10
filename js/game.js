@@ -7,6 +7,7 @@ window.addEventListener('load', () => {
   bindKeyboardEvents();
   bindButtonEvents();
   bindMobileEvents();
+  setMobileControlsVisible(false);
 });
 
 /**
@@ -16,6 +17,7 @@ function startGame() {
   window.gamePaused = false;
   document.getElementById('startScreen').style.display = 'none';
   world = new World(canvas, keyboard);
+  setMobileControlsVisible(true);
 }
 
 /**
@@ -26,6 +28,7 @@ function restartGame() {
   window.gamePaused = false;
   hideAllScreens();
   world = new World(canvas, keyboard);
+  setMobileControlsVisible(true);
 }
 
 /**
@@ -34,6 +37,7 @@ function restartGame() {
 function goHome() {
   hideAllScreens();
   document.getElementById('startScreen').style.display = 'flex';
+  setMobileControlsVisible(false);
 }
 
 /** Hides all overlay screens. */
@@ -50,6 +54,7 @@ function openPauseMenu() {
   window.gamePaused = true;
   world.soundManager.pauseAll();
   document.getElementById('pauseScreen').classList.remove('hidden');
+  setMobileControlsVisible(false);
 }
 
 /** Closes the pause menu and resumes the game. */
@@ -59,16 +64,19 @@ function closePauseMenu() {
   world.paused = false;
   window.gamePaused = false;
   world.soundManager.resumeLooping();
+  setMobileControlsVisible(true);
 }
 
 /** Shows the win screen overlay. */
 function showWinScreen() {
   document.getElementById('winScreen').classList.remove('hidden');
+  setMobileControlsVisible(false);
 }
 
 /** Shows the lose screen overlay. */
 function showLoseScreen() {
   document.getElementById('loseScreen').classList.remove('hidden');
+  setMobileControlsVisible(false);
 }
 
 /**
@@ -98,11 +106,45 @@ function bindButtonEvents() {
 /** Opens the controls dialog. */
 function openControls() {
   document.getElementById('controlsDialog').classList.remove('hidden');
+  setMobileControlsVisible(false);
 }
 
 /** Closes the controls dialog. */
 function closeControls() {
   document.getElementById('controlsDialog').classList.add('hidden');
+  updateMobileControls();
+}
+
+/** Updates mobile controls based on active gameplay state. */
+function updateMobileControls() {
+  const isPlaying = world && !world.paused && !world.gameOver;
+  const startHidden = document.getElementById('startScreen').style.display === 'none';
+  const controlsHidden = document.getElementById('controlsDialog').classList.contains('hidden');
+  const pauseHidden = document.getElementById('pauseScreen').classList.contains('hidden');
+  const winHidden = document.getElementById('winScreen').classList.contains('hidden');
+  const loseHidden = document.getElementById('loseScreen').classList.contains('hidden');
+  setMobileControlsVisible(
+    Boolean(isPlaying && startHidden && controlsHidden && pauseHidden && winHidden && loseHidden),
+  );
+}
+
+/**
+ * Shows or hides mobile controls and clears touch-held keys when hidden.
+ * @param {boolean} visible - Whether touch controls should be shown
+ */
+function setMobileControlsVisible(visible) {
+  const controls = document.getElementById('mobileControls');
+  if (!controls) return;
+  controls.classList.toggle('gameplay-visible', visible);
+  if (!visible) resetMobileControlKeys();
+}
+
+/** Clears keys controlled by touch buttons. */
+function resetMobileControlKeys() {
+  keyboard.LEFT = false;
+  keyboard.RIGHT = false;
+  keyboard.SPACE = false;
+  keyboard.D = false;
 }
 
 /**
